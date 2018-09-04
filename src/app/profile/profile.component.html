@@ -2,11 +2,11 @@
   <div class="panel-heading"> 
       <img src="../assets/user.jpg" id="image" class="img-circle"></div>
 
-  <div class="panel-body">
+  <div class="panel-body" *ngFor="let data of userData">
     
-    <h4>Richa Madhupriya</h4>  
+    <h4>{{data.name}}</h4>  
     
-    <small>Analyst at Capgemini India Pvt Ltd</small>
+    <small>{{data.profile.bio}}</small>
                 
   </div>
 </div>
