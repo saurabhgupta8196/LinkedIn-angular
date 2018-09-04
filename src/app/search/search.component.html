@@ -1,0 +1,31 @@
+<form class="form-inline">
+  <div class="input-group dropdown">
+    <input type="text" placeholder="Enter to search" class="form-control" [(ngModel)]="query" name="query" autocomplete="off"
+    />
+
+    <div class="input-group-btn">
+      <button class="btn btn-primary dropdown-toggle" (click)="search()" data-toggle="dropdown">
+            <i class="glyphicon glyphicon-search"></i>
+      </button>
+    <!--  <ul *ngIf="result" class="dropdown-menu " id="searchresult" style="right:-2cm;left:-5cm;" >
+        <li>
+          No Result Found!
+        </li>
+      </ul>-->
+      <ul *ngIf="result.length; else try" class="dropdown-menu " id="searchresult" style="right:-2cm;left:-5cm;" >
+        <li *ngFor="let r of result, let i = index">
+          <span>{{r.profile.image}}</span><span id><a (click)="getProfile(i)">{{r.name}}</a>
+          <small>{{r.profile.bio}}</small></span>
+        </li>
+      </ul>
+
+      <ng-template #try>
+         <ul class="dropdown-menu " style="right:-2cm;left:-5cm;" >
+           <li>
+              &nbsp;No Result Found!
+           </li>
+        </ul>
+    </ng-template>
+    </div>
+  </div>
+</form>

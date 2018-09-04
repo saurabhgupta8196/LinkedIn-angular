@@ -1,0 +1,197 @@
+<app-search>
+</app-search>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3">
+      <app-profile></app-profile>
+    </div>
+    <div class="col-sm-9">
+
+      <div id="post">
+
+        <!--================For Add Post ============================-->
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <table cellpadding="10">
+              <tr rowspan="2">
+                <td>
+                  <img src="../assets/user.jpg" class="img-circle">
+                </td>
+                <td>
+                  &nbsp;Richa Madhupriya
+                  <br/>
+                  <small> &nbsp; Analyst at Capgemini India Pvt Ltd</small>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="panel-body form-group">
+            <textarea class="form-control" aria-setsize="fixed" rows="4" cols="40" name="text" [(ngModel)]="createPosts" #CreatePosts="ngModel"
+              placeholder="What's on your mind..."></textarea>
+          </div>
+          <div class="panel-footer">
+            <input type="button" id="postButton" class="btn btn-primary " value="POST" (click)="addPosts(CreatePosts.value)" />
+          </div>
+        </div>
+
+        <!--===================Interpolation of Post==================================== -->
+
+        <div *ngFor='let l of linkedIn '>
+
+          <div *ngFor='let x of l, let i = index'>
+
+            <!-- Modal for edit post  -->
+            <div class="modal fade" id="myEditModal" role="dialog">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> Edit Post</h4>
+                  </div>
+                  <div class="modal-body">
+
+                    <input type="text" class="form-control" [(ngModel)]="edit">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-info" (click)="editPosts()" data-dismiss="modal">Update</button>
+
+
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading dropdown">
+                {{x.name}}
+                <br/>
+                <small>India </small>
+                <div *ngIf="x.userName=='saurabhgupta'">
+                  <!--take it from seession-->
+                  <a data-toggle="dropdown" href="" style="float: right; top:-1cm;">
+                <span class="glyphicon glyphicon-option-horizontal " style=" top:-1cm;"></span>
+              </a>
+
+
+                  <ul class="dropdown-menu dropdown-menu-right" id="editContent">
+                    <li>
+                      <a data-toggle="modal" data-target="#myEditModal" (click)="callModal(i)">
+                    <span class="glyphicon glyphicon-pencil " ></span> Edit Post</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                      <a (click)="deletePosts(x.postId)">
+                    <span class="glyphicon glyphicon-trash "></span> Delete Post</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="panel-body">
+                <article>
+
+                  <p>{{x.content}}</p>
+                </article>
+
+
+              </div>
+
+              <div class="panel-footer panel-default">
+
+                <div>
+                  <a data-toggle="modal" data-target="#myLikeModal" (click)="likedetails(x.userName,x.postId)"> &nbsp;&nbsp;{{x.likes.length}} likes</a>
+                  <a style="margin-left:30px" data-toggle="collapse" [attr.data-target]="'#'+x.postId"> {{x.comments.length}} comments</a>
+                </div>
+               
+                <div>
+                <a class="btn btn-sm">
+                <i (click)="likePost(x.userName, x.postId, i)"> <span class="fa fa-thumbs-o-up" *ngIf="!islike[i]"> Like</span>  
+                <span class="fa fa-thumbs-up" style="color:blue" *ngIf="islike[i]"> Like</span>
+               </i> &nbsp; &nbsp;
+                   </a>
+                <button class="btn btn-sm " data-toggle="collapse" [attr.data-target]="'#'+x.postId">
+                <span class="glyphicon glyphicon-comment"></span> Comment
+              </button>
+            
+
+
+                <div [id]="x.postId" class="collapse" >
+                    
+                  <!--==================InterPolation of Comments=======================-->
+                    <br/>
+
+                  <form #postForm='ngForm' class="form-inline">
+                    <div class="form-group">
+                      <input type="text" class="form-control" id="content" [(ngModel)]='content[i]' name='comment' placeholder="Add a comment.."
+                        id="postComment">&nbsp;&nbsp;
+                      
+
+                    </div>
+                    <button (click)="postCommentData(x.userName,x.postId, i)" type="submit" [disabled]='!postForm.form.valid' class="btn btn-md btn-primary">POST</button>
+                  </form>
+                  <div class="table">
+                    <table cellpadding="10px" cellspacing="10px">
+                      <div *ngFor="let c of x.comments">
+                        <tr rowspan="2">
+                          <td>
+                            <img src="../assets/user.jpg" class="img-circle">
+                          </td>
+                          <td>
+                            {{c.commentedBy}}
+                            <br/>
+                            <p id="comments">{{c.content}} <small>{{c.timestamp | date:'h:mm a'}}</small></p>
+                          </td>
+                        </tr>
+                      </div>
+                    </table>
+                  </div>
+                </div>
+                
+
+                <!-- Modal for likes  -->
+                <div class="modal" id="myLikeModal">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+
+                      <!-- Modal Header -->
+                      <div class="modal-header">
+                        <div>
+                          <h4>Liked By </h4>
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                      </div>
+
+                      <!-- Modal body -->
+                      <div class="modal-body">
+                        <table *ngFor="let d of data">
+                          <tr *ngFor="let y of d.likes" rowspan="2">
+                            <td>
+                              <img src="../../assets/user.jpg" class="img-circle">
+                            </td>
+                            <td>{{y.likedBy}}
+                              <br/>
+                              <h6> {{y.timestamp}}</h6>
+                            </td>
+                          </tr>
+
+                        </table>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+             
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

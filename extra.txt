@@ -1,0 +1,195 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3">
+      <app-profile></app-profile>
+    </div>
+    <div class="col-sm-9">
+
+      <div id="post">
+
+        <!--================For Add Post ============================-->
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <table>
+              <tr rowspan="2">
+                <td>
+                  <img src="../assets/user.jpg" class="img-circle">
+                </td>&nbsp;
+                <td>
+                  Richa Madhupriya
+                  <br/>
+                  <small>Analyst at Capgemini India Pvt Ltd</small>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="panel-body form-group">
+            <textarea class="form-control" rows="4" cols="40" [(ngModel)]="createPost" #CreatePost placeholder="Write here">
+              
+            </textarea>
+          <!--</div>-->
+         <!--// <div class="panel-footer">-->
+            <input  type="button" id="postButton" class="btn btn-primary " (click)="writePostMethod(CreatePost.value)" value="POST" />
+          </div>
+        </div>
+
+        <!--===================Interpolation of Post==================================== -->
+
+        <div *ngFor='let l of linkedIn'>
+          <div *ngFor='let x of l '>
+
+          <div class="panel panel-primary">
+            <div class="panel-heading dropdown">
+              {{x.name}}
+              <br/>
+              <small>India </small>
+              <a data-toggle="dropdown" href="#" style="float: right;">
+                <span class="glyphicon glyphicon-option-horizontal "></span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li>
+                  <a>
+                    <span class="glyphicon glyphicon-pencil "></span> Edit Post</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a>
+                    <span class="glyphicon glyphicon-trash "></span> Delete Post</a>
+                </li>
+              </ul>
+            </div>
+            <div class="panel-body">
+              <article>
+                
+                <p>{{x.content}}</p>
+              </article>
+
+               
+            </div>
+            <div class="panel-footer panel-primary">
+
+              <div>
+                    <a  data-toggle="modal" data-target="#myLikeModal" (click)="likes(x.postId)">
+                       {{x.likes.length}} likes</a>  
+                    <a style="margin-left:30px"  data-toggle="modal" data-target="#myLikeModal">
+                       {{x.comments.length}} comments</a>
+              </div>
+               
+                   
+              
+              <br/>
+              <a  class="btn btn-info btn-sm" (click)="likePost(x.userName, x.postId, i)">
+                <span class="glyphicon glyphicon-thumbs-up"></span> Like
+              </a> &nbsp; &nbsp;
+              <a  class="btn btn-info btn-sm" data-toggle="collapse" [attr.data-target]="'#'+x.postId">
+                <span class="glyphicon glyphicon-comment"></span> Comment
+              </a>
+              <br/>
+
+              <div [id]="x.postId" class="collapse">
+
+             <!--==================InterPolation of Comments=======================-->
+
+
+                <form class="form-inline">
+                  <div class="form-group">
+                    <input type="text" class="form-control"  placeholder="Add a comment.." id="postComment">
+                  </div>
+                  &nbsp; &nbsp;
+                  <button type="submit" class="btn btn-md btn-primary">POST</button>
+                </form>
+                <table>
+                  <div *ngFor="let c of x.comments">
+                    <tr rowspan="2">
+                      <td>
+                        <img src="../assets/user.jpg" class="rounded-circle">
+                      </td>
+                      <td>
+                        {{c.commentBy}}
+                        <br/>
+                        <small id="comments">{{c.content}}</small>
+                      </td>
+                    </tr>
+                  </div>
+                  </table><br/>
+                  <!--<table>
+                      <tr rowspan="2">
+                        <td>
+                          <img src="../assets/user.jpg" class="rounded-circle">
+                        </td>
+                       
+                      </tr>
+                    </table>-->
+              </div>
+            </div>
+          </div>
+
+          <!--===========================like modal===========================================-->
+
+           <div class="modal fade" id="myLikeModal" role="dialog" *ngIf="!likesCount==0">
+ 
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header  panel  panel-primary">
+          <div class="panel-heading  ">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">{{likesCount}}</h4>
+          </div>
+        </div>
+        <div class="modal-body" *ngFor="let like of likesNames[0]">
+          <div class="like-border">{{like.likedBy}}</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+        </div>
+
+
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Modal for likes  -->
+     <div *ngFor='let l of linkedIn'>
+          <div *ngFor='let x of l'>
+ 
+  </div>
+          </div>
+  </div>
+
+  <!-- Modal for Comments  -->
+  <!--<div class="modal fade" id="myCommentModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!- Modal content-->
+      <!--<div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>-->
+
+
+
+  <div *ngFor='let l of linkedIn'>
+  <div *ngFor='let x of l'>
+<p >{{x.postId}}</p>
+  </div>
+</div>

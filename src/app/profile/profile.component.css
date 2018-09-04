@@ -1,0 +1,17 @@
+#profile {
+    margin-top: 40px;
+    margin-right:20px;
+    box-sizing: content-box;
+    
+    transition: 0.3s;
+    
+  }
+  .panel-heading{
+    background-color: lightcyan
+    
+  }
+  img{
+    margin-left:60px;
+    width:60px;
+    height:60px;
+  }
